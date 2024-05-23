@@ -48,6 +48,36 @@ public class MyRouteBuilder extends RouteBuilder {
                 .process(this::setCurStep)
                 .to("direct:test-route-entrypoint")
                 ;
+
+
+        //
+        // USING toD()
+        //
+
+
+        from("jetty:http://0.0.0.0:9000/start-test-tod")
+                .to("direct:start-test-toD")
+        ;
+
+        from("direct:test-route-entrypoint-toD")
+                .setProperty("LOGGER_ENDPOINT", simple("log:logger#${header.CUR}"))
+                .toD("${exchangeProperty.LOGGER_ENDPOINT}")
+        ;
+
+        from("direct:start-test-toD")
+                .log("STARTING TEST...")
+                .log("HEADERS = ${headers}")
+                .process(this::initStartAndCount)
+                .loop(header("count")).to("direct:loop-internals-toD")
+                    .process(this::setCurStep)
+                    .log("hi inside loop ${exchangeProperty.CamelLoopIndex} ${header.CUR}")
+                .end()
+        ;
+
+        from("direct:loop-internals-toD")
+                .process(this::setCurStep)
+                .to("direct:test-route-entrypoint-toD")
+                ;
     }
 
 //========================================

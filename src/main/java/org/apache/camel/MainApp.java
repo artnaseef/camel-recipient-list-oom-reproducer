@@ -12,8 +12,7 @@ public class MainApp {
      */
     public static void main(String... args) throws Exception {
         Main main = new Main();
-        CamelContext camelContext = main.getOrCreateCamelContext();
-        camelContext.addRoutes(new MyRouteBuilder());
+        main.addRouteBuilder(new MyRouteBuilder());
         main.run(args);
     }
 
