@@ -2,16 +2,18 @@
 
 ## To Use
 
-$ mvn clean install camel:run
-$ curl 'http://localhost:9000/start-test?start=1&count=10000'
-$ curl 'http://localhost:9000/start-test?start=10001&count=10000'
+    $ mvn clean install camel:run
+    $ curl 'http://localhost:9000/start-test?start=1&count=10000'
+    $ curl 'http://localhost:9000/start-test?start=10001&count=10000'
 
-* Run with low heap size to reproduce the OOM faster:
-$ MAVEN_OPTS=-Xmx512M mvn clean install camel:run
+## Run with low heap size to reproduce the OOM faster:
 
-* View the histogram
-$ jmap -histo <pid> | grep LogEndpoint
-$ jmap -histo $(jps -v | grep -i reproducer-for-my-issue | awk '{ print $1 }') | grep LogEndpoint
+    $ MAVEN_OPTS=-Xmx512M mvn clean install camel:run
+
+## View the histogram
+
+    $ jmap -histo <pid> | grep LogEndpoint
+    $ jmap -histo $(jps -v | grep -i reproducer-for-my-issue | awk '{ print $1 }') | grep LogEndpoint
 
 ## OOM
 
